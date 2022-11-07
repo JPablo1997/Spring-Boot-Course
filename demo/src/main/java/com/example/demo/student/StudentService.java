@@ -29,10 +29,24 @@ public class StudentService {
     
     public void deleteStudent(Long id) {
     	if(! this.studentRepository.existsById(id)) {
-    		throw new IllegalStateException("Student with id: " + id + " doesn't exists.");
+    		throw new IllegalStateException("Student with id: '" + id + "' doesn't exists.");
     	}
     	
     	this.studentRepository.deleteById(id);
+    }
+    
+    public void updateStudent(Long id, Student student) {
+    	Student studentUpdate = null;
+    	
+    	if(! this.studentRepository.existsById(id)) {
+    		throw new IllegalStateException("Student with id: '" + id + "' doesn't exists.");
+    	} else {
+    		studentUpdate = this.studentRepository.findById(id).get();
+    		studentUpdate.setName(student.getName());
+    		studentUpdate.setEmail(student.getEmail());
+    	}
+    	
+    	this.studentRepository.save(studentUpdate);
     }
 
 }
